@@ -6,7 +6,10 @@
  */
 
 import {describe, expect, it} from 'vitest';
-import {getThemeInlineScript} from '../inlineScripts';
+import {
+  getThemeInlineScript,
+  getAnnouncementBarInlineScript,
+} from '../inlineScripts';
 
 describe('inlineScripts', () => {
   it('inline javascript for default options', () => {
@@ -36,6 +39,45 @@ describe('inlineScripts', () => {
         siteStorage: {
           type: 'localStorage',
           namespace: '',
+        },
+      }),
+    ).toMatchSnapshot();
+  });
+
+  it('announcement bar inline script without id', () => {
+    expect(
+      getAnnouncementBarInlineScript({
+        siteStorage: {
+          type: 'localStorage',
+          namespace: '',
+        },
+      }),
+    ).toMatchSnapshot();
+  });
+
+  it('announcement bar inline script with id', () => {
+    expect(
+      getAnnouncementBarInlineScript({
+        siteStorage: {
+          type: 'localStorage',
+          namespace: '',
+        },
+        announcementBar: {
+          id: 'banner_v2',
+        },
+      }),
+    ).toMatchSnapshot();
+  });
+
+  it('announcement bar inline script with id and namespace', () => {
+    expect(
+      getAnnouncementBarInlineScript({
+        siteStorage: {
+          type: 'localStorage',
+          namespace: '.test-ns',
+        },
+        announcementBar: {
+          id: 'banner_v3',
         },
       }),
     ).toMatchSnapshot();

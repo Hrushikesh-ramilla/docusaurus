@@ -1,5 +1,49 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`inlineScripts > announcement bar inline script with id 1`] = `
+"(function() {
+  function isDismissed() {
+    try {
+      var storedId = localStorage.getItem('docusaurus.announcement.id');
+      if (storedId !== 'banner_v2') {
+        return false;
+      }
+      return localStorage.getItem('docusaurus.announcement.dismiss') === 'true';
+    } catch (err) {}
+    return false;
+  }
+  document.documentElement.setAttribute('data-announcement-bar-initially-dismissed', isDismissed());
+})();"
+`;
+
+exports[`inlineScripts > announcement bar inline script with id and namespace 1`] = `
+"(function() {
+  function isDismissed() {
+    try {
+      var storedId = localStorage.getItem('docusaurus.announcement.id.test-ns');
+      if (storedId !== 'banner_v3') {
+        return false;
+      }
+      return localStorage.getItem('docusaurus.announcement.dismiss.test-ns') === 'true';
+    } catch (err) {}
+    return false;
+  }
+  document.documentElement.setAttribute('data-announcement-bar-initially-dismissed', isDismissed());
+})();"
+`;
+
+exports[`inlineScripts > announcement bar inline script without id 1`] = `
+"(function() {
+  function isDismissed() {
+    try {
+      return localStorage.getItem('docusaurus.announcement.dismiss') === 'true';
+    } catch (err) {}
+    return false;
+  }
+  document.documentElement.setAttribute('data-announcement-bar-initially-dismissed', isDismissed());
+})();"
+`;
+
 exports[`inlineScripts > inline javascript for default mode and no switch 1`] = `
 "(function() {
   function getSystemColorMode() {

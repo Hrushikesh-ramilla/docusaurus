@@ -25,8 +25,12 @@ const AnnouncementBarDismissStorage = createStorageSlot(
 );
 const IdStorage = createStorageSlot('docusaurus.announcement.id');
 
-const isDismissedInStorage = () =>
-  AnnouncementBarDismissStorage.get() === 'true';
+const isDismissedInStorage = (id?: string) => {
+  if (id && IdStorage.get() !== id) {
+    return false;
+  }
+  return AnnouncementBarDismissStorage.get() === 'true';
+};
 const setDismissedInStorage = (bool: boolean) =>
   AnnouncementBarDismissStorage.set(String(bool));
 
@@ -48,14 +52,14 @@ function useContextValue(): ContextValue {
   const [isClosed, setClosed] = useState(() =>
     isBrowser
       ? // On client navigation: init with local storage value
-        isDismissedInStorage()
+        isDismissedInStorage(announcementBar?.id)
       : // On server/hydration: always visible to prevent layout shifts (will be hidden with css if needed)
         false,
   );
   // Update state after hydration
   useEffect(() => {
-    setClosed(isDismissedInStorage());
-  }, []);
+    setClosed(isDismissedInStorage(announcementBar?.id));
+  }, [announcementBar?.id]);
 
   const handleClose = useCallback(() => {
     setDismissedInStorage(true);
@@ -77,7 +81,7 @@ function useContextValue(): ContextValue {
       setDismissedInStorage(false);
     }
 
-    if (isNewAnnouncement || !isDismissedInStorage()) {
+    if (isNewAnnouncement || !isDismissedInStorage(id)) {
       setClosed(false);
     }
   }, [announcementBar]);
